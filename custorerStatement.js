@@ -5,8 +5,7 @@ function statement(customer, movies) {
     let result = `Rental Record for ${customer.name}\n`;
 
     // setting iteration length 
-		const totalRents = customer.rentals.length;
-    for (let i = 0; i < totalRents; i++) {
+    for (let i = 0, totalRents = customer.rentals.length; i < totalRents; i++) {
       // destructuring 
       const {days, movieID} = customer.rentals[i];
       const {code, title} = movies[movieID];
