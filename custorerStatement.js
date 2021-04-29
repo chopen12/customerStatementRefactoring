@@ -4,43 +4,38 @@ function statement(customer, movies) {
     let frequentRenterPoints = 0;
     let result = `Rental Record for ${customer.name}\n`;
 
-    for (let r of customer.rentals) {
-      let movie = movies[r.movieID];
+    // setting iteration length 
+		const totalRents = customer.rentals.length;
+    for (let i = 0; i < totalRents; i++) {
+      // destructuring 
+      const {days, movieID} = customer.rentals[i];
+      const {code, title} = movies[movieID];
       let thisAmount = 0;
+      
 
-      // determine amount for each movie
-      switch (movie.code) {
+      // determine amount for each movie declaratively, reducing cases since shown are 3 only
+      switch (code) {
         case "regular":
-          thisAmount = 2;
-          if (r.days > 2) {
-            thisAmount += (r.days - 2) * 1.5;
-          }
+        	thisAmount += days > 2 ? (days - 2) * 1.5 : 2;
           break;
         case "new":
-          thisAmount = r.days * 3;
+          thisAmount = days * 3;
           break;
-        case "childrens":
-          thisAmount = 1.5;
-          if (r.days > 3) {
-            thisAmount += (r.days - 3) * 1.5;
-          }
+        default:
+        	thisAmount += days > 3 ? (days - 3) * 1.5 : 1.5;
           break;
       }
 
-      //add frequent renter points
-      frequentRenterPoints++;
-
-      // add bonus for a two day new release rental
-      if(movie.code === "new" && r.days > 2) frequentRenterPoints++;
+      //add 2 frequent points for a two day new release rental else 1
+      frequentRenterPoints += (code === "new" && days > 2) ? 2 : 1;
 
       //print figures for this rental
-      result += `\t${movie.title}\t${thisAmount}\n` ;
+      result += `\t${title}\t${thisAmount}\n` ;
       totalAmount += thisAmount;
     }
 
     // add footer lines
-    result += `Amount owed is ${totalAmount}\n`;
-    result += `You earned ${frequentRenterPoints} frequent renter points\n`;
+    result += `Amount owed is ${totalAmount}\n You earned ${frequentRenterPoints} frequent renter points\n`;
 
     return result;
   }
