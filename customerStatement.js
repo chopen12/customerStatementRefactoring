@@ -1,15 +1,15 @@
 // customer statement
 function statement(customer, movies) {
-    let result = `Rental Record for ${customer.name}:\n`;
     // base exit conditions / validations
-    if (!customer.rentals || customer.rentals.length === 0) {
-      return result + 'Error. No rentals to register.';
+    if (!customer || !customer.name || !customer.rentals || customer.rentals.length === 0) {
+      return 'Error. No rentals to register.';
     }
     if (!movies || Object.keys(movies).length === 0 && movies.constructor === Object) {
-      return result + 'Error. Movie data not available.';
+      return 'Error. Movie data not available.';
     }
 
     // routine start
+    let result = `Rental Record for ${customer.name}:\n`;
     let totalAmount = 0;
     let frequentRenterPoints = 0;
 
