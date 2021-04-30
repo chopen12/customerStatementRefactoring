@@ -1,8 +1,17 @@
 // customer statement
 function statement(customer, movies) {
+    let result = `Rental Record for ${customer.name}:\n`;
+    // base exit conditions / validations
+    if (!customer.rentals || customer.rentals.length === 0) {
+      return result + 'Error. No rentals to register.';
+    }
+    if (!movies || Object.keys(movies).length === 0 && movies.constructor === Object) {
+      return result + 'Error. Movie data not available.';
+    }
+
+    // routine start
     let totalAmount = 0;
     let frequentRenterPoints = 0;
-    let result = `Rental Record for ${customer.name}\n`;
 
     // setting iteration length 
     for (let i = 0, totalRents = customer.rentals.length; i < totalRents; i++) {
@@ -14,12 +23,12 @@ function statement(customer, movies) {
       const thisAmount =
       code === "regular"
         ? days > 2
-          ? (days - 2) * 1.5
+          ? (days - 2) * 1.5 + 2
           : 2
         : code === "new"
         ? days * 3
         : days > 3
-        ? (days - 3) * 1.5
+        ? (days - 3) * 1.5 + 1.5
         : 1.5;
       
       //add 2 frequent points for a two day new release rental else 1
@@ -31,9 +40,7 @@ function statement(customer, movies) {
     }
 
     // add footer lines
-    result += `Amount owed is ${totalAmount}\n You earned ${frequentRenterPoints} frequent renter points\n`;
-
-    return result;
+    return result + `Amount owed is ${totalAmount}\n You earned ${frequentRenterPoints} frequent renter points\n`;
   }
 
 /* Customer Record
