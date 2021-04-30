@@ -9,22 +9,19 @@ function statement(customer, movies) {
       // destructuring 
       const {days, movieID} = customer.rentals[i];
       const {code, title} = movies[movieID];
-      let thisAmount = 0;
       
-
       // determine amount for each movie declaratively, reducing cases since shown are 3 only
-      switch (code) {
-        case "regular":
-        	thisAmount += days > 2 ? (days - 2) * 1.5 : 2;
-          break;
-        case "new":
-          thisAmount = days * 3;
-          break;
-        default:
-        	thisAmount += days > 3 ? (days - 3) * 1.5 : 1.5;
-          break;
-      }
-
+      const thisAmount =
+      code === "regular"
+        ? days > 2
+          ? (days - 2) * 1.5
+          : 2
+        : code === "new"
+        ? days * 3
+        : days > 3
+        ? (days - 3) * 1.5
+        : 1.5;
+      
       //add 2 frequent points for a two day new release rental else 1
       frequentRenterPoints += (code === "new" && days > 2) ? 2 : 1;
 
